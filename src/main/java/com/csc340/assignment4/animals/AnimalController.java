@@ -1,6 +1,8 @@
 package com.csc340.assignment4.animals;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,12 +11,17 @@ import java.util.List;
  * AnimalController.java
  * Includes all REST API endpoint mappings for the Animal object.
  */
-@RestController
+@Controller
 @RequestMapping("/animals")
 public class AnimalController {
 
     @Autowired
     private AnimalService service;
+
+    @GetMapping("showAll")
+    public String showAllAnimals(){
+        return "redirect:/animals/all";
+    }
 
     /**
      * Get a list of all animals in the database.
@@ -23,8 +30,11 @@ public class AnimalController {
      * @return a list of Animal objects.
      */
     @GetMapping("/all")
-    public List<Animal> getAllAnimals() {
-        return service.getAllAnimals();
+    public String getAllAnimals(Model model){
+        model.addAttribute("animalList", service.getAllAnimals());
+        model.addAttribute("title", "All Animals");
+
+        return "animal-list";
     }
 
     /**
@@ -35,8 +45,10 @@ public class AnimalController {
      * @return One Animal object.
      */
     @GetMapping("/{id}")
-    public Animal getAnimalById(@PathVariable int id) {
-        return service.getAnimalById(id);
+    public String getAnimalById(@PathVariable int id, Model model) {
+        //return service.getAnimalById(id);
+        model.addAttribute("animal", service.getAnimalById(id));
+        return "animal-details";
     }
 
     /**
@@ -47,8 +59,9 @@ public class AnimalController {
      * @return A list of Animal objects matching the species type.
      */
     @GetMapping("/species/{type}")
-    public List<Animal> getAnimalsBySpecies(@PathVariable String type) {
-        return service.getAnimalsBySpecies(type);
+    public String getAnimalsBySpecies(@PathVariable String type, Model model){
+        model.addAttribute("animalList", service.getAnimalsBySpecies(type));
+        return "animal-list";
     }
 
     /**
@@ -59,8 +72,19 @@ public class AnimalController {
      * @return A list of Animal objects that contain the keyword.
      */
     @GetMapping("/contains/{keyword}")
-    public List<Animal> getAnimalsByKeyword(@PathVariable String keyword) {
-        return service.getAnimalByKeyword(keyword);
+    public String getAnimalsByKeyword(@PathVariable String keyword, Model model) {
+        model.addAttribute("animalsList", service.getAnimalByKeyword(keyword));
+
+        return "animal-list";
+    }
+
+    /**
+     * Serves the create form to the user.
+     * @return the html page.
+     */
+    @GetMapping("/createForm")
+    public String showCreateForm() {
+        return "animal-create";
     }
 
     /**
@@ -81,9 +105,19 @@ public class AnimalController {
      * @return The updated list of Animals.
      */
     @PostMapping("/new")
-    public List<Animal> addNewAnimal(@RequestBody Animal animal) {
+    public String addNewAnimal(Animal animal) {
         service.addNewAnimal(animal);
-        return service.getAllAnimals();
+        return "redirect:/animals/all";
+    }
+
+    /**
+     * Serves the update form to the user.
+     * @return the html page.
+     */
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        model.addAttribute("animal", service.getAnimalById(id));
+        return "animal-update";
     }
 
     /**
@@ -100,14 +134,13 @@ public class AnimalController {
      *      "description": "Updated description"
      * }
      *
-     * @param id The unique ID of the Animal to update.
      * @param animal The updated Animal details.
      * @return The updated Animal object.
      */
-    @PutMapping("/update/{id}")
-    public Animal updateAnimal(@PathVariable int id, @RequestBody Animal animal) {
-        service.updateAnimal(id, animal);
-        return service.getAnimalById(id);
+    @PostMapping("/update")
+    public String updateAnimal(Animal animal) {
+        service.addNewAnimal(animal);
+        return "redirect:/animals/" + animal.getAnimalId();
     }
 
     /**
@@ -117,9 +150,9 @@ public class AnimalController {
      * @param id The unique ID of the Animal to delete.
      * @return The updated list of Animals.
      */
-    @DeleteMapping("/delete/{id}")
-    public List<Animal> deleteAnimalById(@PathVariable int id) {
+    @GetMapping("/delete/{id}")
+    public String deleteAnimalById(@PathVariable int id) {
         service.deleteEntityById(id);
-        return service.getAllAnimals();
+        return "redirect:/animals/all";
     }
 }

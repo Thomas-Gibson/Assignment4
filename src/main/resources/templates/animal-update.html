@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animal Update</title>
+</head>
+<body>
+<a href="showAll">View All</a>
+<a href="createForm">Create Animal</a>
+<form action="/animals/update" method="post">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" data-th-value="${animal.name}">
+
+    <label for="scientific">Scientific Name</label>
+    <input type="text" id="scientific" name="scientific" data-th-value="${animal.scientificName}">
+
+    <label for="species">Species</label>
+    <input type="text" id="species" name="species" data-th-value="${animal.species}">
+
+    <label for="habitat">Habitat</label>
+    <input type="text" id="habitat" name="habitat" data-th-value="${animal.habitat}">
+
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" data-th-value="${animal.description}">
+
+    <button type="submit">Save Changes</button>
+</form>
+</body>
+</html>

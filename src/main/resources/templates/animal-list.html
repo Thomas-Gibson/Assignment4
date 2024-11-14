@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animal-List</title>
+</head>
+<body>
+    <main>
+        <a href="createForm">Create Animal</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Scientific Name</th>
+                <th>Species</th>
+                <th>Habitat</th>
+                <th>Description</th>
+            </tr>
+            <tr data-th-each="animal : ${animalList}">
+                <td>
+                    <a data-th-href="@{/animals/{id}(id=${animal.animalId})}" data-th-text="${animal.animalId}"></a>
+                </td>
+                <td> <a data-th-text="${animal.name}"></a></td>
+                <td data-th-text="${animal.scientificName}"></td>
+                <td data-th-text="${animal.species}"></td>
+                <td data-th-text="${animal.habitat}"></td>
+                <td data-th-text="${animal.description}"></td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>

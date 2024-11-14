@@ -13,6 +13,7 @@ public class Animal {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = true)
     private String scientificName;
 
     @Column(nullable = false)

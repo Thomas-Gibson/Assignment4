@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animal Details</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <main>
+        <a href="showAll">View All</a>
+        <a href="createForm">Create Animal</a>
+        <a data-th-href="@{/animals/update/{id}(id=${animal.animalId})}">update Animal</a>
+        <a data-th-href="@{/animals/delete/{id}(id=${animal.animalId})}" class="btn btn-danger">Delete Animal</a>
+        <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Scientific Name</th>
+            <th>Species</th>
+            <th>Habitat</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td data-th-text="${animal.animalId}"></td>
+            <td data-th-text="${animal.name}"></td>
+            <td data-th-text="${animal.scientificName}"></td>
+            <td data-th-text="${animal.species}"></td>
+            <td data-th-text="${animal.habitat}"></td>
+            <td data-th-text="${animal.description}"></td>
+        </tr>
+        </table>
+    </main>
+</body>
+</html>
